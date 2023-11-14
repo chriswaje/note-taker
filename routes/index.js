@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+const { readFromFile, readAndAppend, readAndDelete } = require('../helpers/fsUtils');
+const uuid = require('../helpers/uuid');
 
 // GET request to read notes from database file
 router.get('/notes', (req, res) => {
@@ -13,7 +14,8 @@ router.post('/notes', (req, res) => {
     if (req.body) {
         const newNote = {
             title,
-            text
+            text,
+            id: uuid()
         };
 
         readAndAppend(newNote, './db/db.json');
@@ -22,5 +24,10 @@ router.post('/notes', (req, res) => {
         res.error('Error in adding note')
     }
 });
+
+router.delete('/notes/:id', (req, res) => {
+    readAndDelete(req.params.id, './db/db.json');
+    res.json('deleted')
+})
 
 module.exports = router;
