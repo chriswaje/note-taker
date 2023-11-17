@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const routes = require('./routes/index');
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 // middleware for app to expect JSON syntax and data passing through URL
